@@ -75,7 +75,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - run: cd $GITHUB_WORKSPACE ; .mvn clean compile spring-boot:start
+      - run: cd $GITHUB_WORKSPACE ; mvn clean compile spring-boot:start
       - run: |
           npm_config_yes=true npx wait-port 8080
           npm_config_yes=true npx wait-port 9090
