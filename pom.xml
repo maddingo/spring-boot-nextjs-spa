@@ -8,6 +8,11 @@
         <version>2.6.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+    <scm>
+        <connection>scm:git:https://github.com/maddingo/spring-boot-nextjs-spa.git</connection>
+        <developerConnection>git@github.com:daggerok/spring-boot-nextjs-spa.git</developerConnection>
+        <url>https://github.com/maddingo/spring-boot-nextjs-spas</url>
+    </scm>
     <groupId>daggerok</groupId>
     <artifactId>spring-boot-nextjs-spa</artifactId>
     <version>0.0.1-SNAPSHOT</version>
