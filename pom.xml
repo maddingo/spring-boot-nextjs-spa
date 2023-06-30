@@ -95,9 +95,9 @@
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
-                <version>v${frontend-maven-plugin.version}</version>
+                <version>${frontend-maven-plugin.version}</version>
                 <configuration>
-                    <nodeVersion>${frontend-maven-plugin.nodeVersion}</nodeVersion>
+                    <nodeVersion>v${frontend-maven-plugin.nodeVersion}</nodeVersion>
                     <workingDirectory>${project.basedir}/src/main/js</workingDirectory>
                     <installDirectory>${project.build.directory}</installDirectory>
                 </configuration>
