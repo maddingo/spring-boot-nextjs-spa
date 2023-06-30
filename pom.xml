@@ -21,7 +21,7 @@
         <kotlin.version>1.6.10</kotlin.version>
         <log4j-api-kotlin.version>1.1.0</log4j-api-kotlin.version>
         <frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
-        <frontend-maven-plugin.nodeVersion>v17.8.0</frontend-maven-plugin.nodeVersion>
+        <frontend-maven-plugin.nodeVersion>v18.16.1</frontend-maven-plugin.nodeVersion>
     </properties>
     <dependencies>
         <dependency>
@@ -218,17 +218,6 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>
-        <profile>
-            <id>env-node-version</id>
-            <activation>
-                <property>
-                    <name>${env.NODE_VERSION}</name>
-                </property>
-            </activation>
-            <properties>
-                <frontend-maven-plugin.nodeVersion>v${env.NODE_VERSION}</frontend-maven-plugin.nodeVersion>
-            </properties>
         </profile>
     </profiles>
 </project>
