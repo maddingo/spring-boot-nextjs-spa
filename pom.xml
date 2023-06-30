@@ -228,6 +228,7 @@
                 </property>
             </activation>
             <properties>
+                <!--suppress UnresolvedMavenProperty -->
                 <frontend-maven-plugin.nodeVersion>v${env.NODE_VERSION}</frontend-maven-plugin.nodeVersion>
             </properties>
         </profile>
