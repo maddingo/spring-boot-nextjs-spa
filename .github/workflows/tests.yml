@@ -1,21 +1,20 @@
 name: tests
 on:
   push:
-  #pull_request:
-  #  branches: [ master, main ]
-  #  paths:
-  #  - '*.md'
-  #  - '*.adoc'
-  #  - '*.js*'
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
   workflow_dispatch:
     inputs:
       trigger:
-        description: Type m to triggre manual jobs
+        description: Type m to trigger manual jobs
         required: false
         default: ''
 env:
-  JAVA_VERSION: 18
-  NODE_VERSION: 17.7.2
+  JAVA_VERSION: 17
+  NODE_VERSION: 18.16.1
 jobs:
   updates:
     if: startsWith(github.event.inputs.trigger, 'm')
@@ -25,7 +24,6 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-java@v2
         with:
-          # 'temurin' 'zulu' 'adopt' 'adopt-hotspot' 'adopt-openj9' 'liberica' 'microsoft'
           distribution: 'temurin'
           java-version: ${{ env.JAVA_VERSION }}
       - uses: actions/cache@v3
@@ -34,9 +32,8 @@ jobs:
             ~/.m2
             ~/.npm
             ~/.docker
-            ~/.gradle
-          key: ${{ runner.os }}-build-${{ hashFiles('**/*gradle*', '**/pom.xml') }}
-      - run: cd $GITHUB_WORKSPACE ; ./mvnw versions:display-property-updates
+          key: ${{ runner.os }}-build-${{ hashFiles('**/pom.xml') }}
+      - run: cd $GITHUB_WORKSPACE ; mvn versions:display-property-updates
   tests:
     if: github.event.inputs.trigger == ''
       || !startsWith(github.event.inputs.trigger, 'm')
@@ -54,9 +51,8 @@ jobs:
             ~/.m2
             ~/.npm
             ~/.docker
-            ~/.gradle
-          key: ${{ runner.os }}-build-${{ hashFiles('**/*gradle*', '**/pom.xml') }}
-      - run: cd $GITHUB_WORKSPACE ; ./mvnw
+          key: ${{ runner.os }}-build-${{ hashFiles('**/pom.xml') }}
+      - run: cd $GITHUB_WORKSPACE ; mvn
   e2e-tests:
     name: e2e tests
     if: github.event.inputs.trigger == ''
@@ -74,17 +70,16 @@ jobs:
           path: |
             ~/.m2
             ~/.npm
-            ~/.gradle
-          key: ${{ runner.os }}-build-${{ hashFiles('**/*gradle*', '**/pom.xml') }}
+          key: ${{ runner.os }}-build-${{ hashFiles('**/pom.xml') }}
       - run: sudo apt-get install -yqq httpie
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - run: cd $GITHUB_WORKSPACE ; ./mvnw clean compile spring-boot:start
+      - run: cd $GITHUB_WORKSPACE ; mvn clean compile spring-boot:start
       - run: |
           npm_config_yes=true npx wait-port 8080
           npm_config_yes=true npx wait-port 9090
           http --ignore-stdin get :8080
           http --ignore-stdin get :8080/api/user/first-name
           http --ignore-stdin get :8080/api/user/last-name
-      - run: cd $GITHUB_WORKSPACE ; ./mvnw spring-boot:stop
+      - run: cd $GITHUB_WORKSPACE ; mvn spring-boot:stop
